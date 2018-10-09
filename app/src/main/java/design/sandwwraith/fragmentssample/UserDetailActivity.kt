@@ -32,13 +32,13 @@ class UserDetailActivity : AppCompatActivity(), FragmentWithText.FragmentWithTex
     private fun navigateOther(index: Int) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.detail_view_activity_frame, FragmentWithText.newInstance("I'm a fragment $index"))
-            popHomeIfPresent()
+            popOtherIfPresent()
             addToBackStack(null)
             commit()
         }
     }
 
-    private fun popHomeIfPresent() {
+    private fun popOtherIfPresent() {
         val stackCount = supportFragmentManager.backStackEntryCount
         if (stackCount == 0) {
             return
@@ -47,7 +47,7 @@ class UserDetailActivity : AppCompatActivity(), FragmentWithText.FragmentWithTex
     }
 
     private fun navigateHome() {
-        popHomeIfPresent()
+        popOtherIfPresent()
     }
 
 
@@ -57,6 +57,7 @@ class UserDetailActivity : AppCompatActivity(), FragmentWithText.FragmentWithTex
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         val user = intent?.getParcelableExtra<User>("USER") ?: return
+        if (supportFragmentManager.backStackEntryCount > 0) return
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.detail_view_activity_frame, UserDetailsFragment.newInstance(user), "TAG_HOME")
             commit()
