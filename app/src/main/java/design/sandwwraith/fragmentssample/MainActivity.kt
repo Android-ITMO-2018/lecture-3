@@ -10,9 +10,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        users_list.setupForUsers(this, 20) {
-            Toast.makeText(this, "Clicked $it item", Toast.LENGTH_SHORT).show()
-        }
     }
 }
