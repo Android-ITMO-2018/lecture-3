@@ -1,6 +1,7 @@
 package design.sandwwraith.fragmentssample
 
 import android.content.Context
+import android.content.Intent
 import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -32,6 +33,12 @@ fun RecyclerView.setupForUsers(ctx: Context, genSize: Int, onItemClicked: (User)
     layoutManager = LinearLayoutManager(ctx)
     adapter = UsersRecycler(generateUsers(genSize), onItemClicked)
     setHasFixedSize(true)
+}
+
+fun Context.createUserIntent(user: User): Intent {
+    val intent = Intent(this, UserDetailActivity::class.java)
+    intent.putExtra("USER", user)
+    return intent
 }
 
 class UserViewHolder(val frame: FrameLayout) : RecyclerView.ViewHolder(frame) {

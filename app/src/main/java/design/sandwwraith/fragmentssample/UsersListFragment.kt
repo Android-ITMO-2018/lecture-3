@@ -3,11 +3,7 @@ package design.sandwwraith.fragmentssample
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.view.*
 import kotlinx.android.synthetic.main.users_list.view.*
 
 
@@ -22,8 +18,14 @@ class UsersListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.users_list, container, false).also { inflatedView ->
-        inflatedView.users_list.setupForUsers(context!!, 20) {
-            Toast.makeText(context, "Clicked $it item", Toast.LENGTH_SHORT).show()
+        inflatedView.users_list.setupForUsers(context!!, 20) { user ->
+            if (activity?.findViewById<View>(R.id.fragment_content) != null) {
+                val transaction = activity!!.supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_content, UserDetailsFragment.newInstance(user))
+                transaction.commit()
+            } else {
+                startActivity(context!!.createUserIntent(user))
+            }
         }
     }
 }
