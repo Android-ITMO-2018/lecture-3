@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include layout="@layout/users_list"/>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="design.sandwwraith.fragmentssample.UsersList"
+        android:id="@+id/fragment_list"/>
 
 </android.support.constraint.ConstraintLayout>

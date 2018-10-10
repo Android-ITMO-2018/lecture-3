@@ -1,6 +1,7 @@
 package design.sandwwraith.fragmentssample
 
 import android.content.Context
+import android.content.Intent
 import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -28,7 +29,7 @@ fun generateUsers(size: Int): List<User> {
     return res
 }
 
-fun RecyclerView.setupForUsers(ctx: Context, genSize: Int, onItemClicked: (Int) -> Unit = {}) {
+fun RecyclerView.setupForUsers(ctx: Context, genSize: Int, onItemClicked: (User) -> Unit = {}) {
     layoutManager = LinearLayoutManager(ctx)
     adapter = UsersRecycler(generateUsers(genSize), onItemClicked)
     setHasFixedSize(true)
@@ -38,7 +39,13 @@ class UserViewHolder(val frame: FrameLayout) : RecyclerView.ViewHolder(frame) {
     val textView = frame.item_text!!
 }
 
-class UsersRecycler(private val users: List<User>, private val onItemClicked: (Int) -> Unit) :
+fun Context.createUserIntent(user: User): Intent {
+    val intent = Intent(this, Main2Activity::class.java)
+    intent.putExtra("USER", user)
+    return intent
+}
+
+class UsersRecycler(private val users: List<User>, private val onItemClicked: (User) -> Unit) :
     RecyclerView.Adapter<UserViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) =
         UserViewHolder(
@@ -48,7 +55,7 @@ class UsersRecycler(private val users: List<User>, private val onItemClicked: (I
                 false
             ) as FrameLayout
         ).apply {
-            frame.setOnClickListener { onItemClicked(adapterPosition) }
+            frame.setOnClickListener { onItemClicked(users[adapterPosition]) }
         }
 
     override fun getItemCount() = users.size
